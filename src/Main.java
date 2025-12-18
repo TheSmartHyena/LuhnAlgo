@@ -1,13 +1,23 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-void main() {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    IO.println(String.format("Hello and welcome!"));
+boolean luhn(String txt) {
+    ArrayList<Integer> list = new ArrayList<>();
 
-    for (int i = 1; i <= 5; i++) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        IO.println("i = " + i);
+    // Cast to int
+    for (char c : txt.toCharArray()) {
+        list.add(Integer.parseInt(String.valueOf(c)));
     }
+
+    // Double it, if necessary -9
+    int start = list.size() % 2 == 0 ? 0 : 1;
+    for (int i = start; i < list.size(); i+=2) {
+        int doubled = list.get(i) * 2;
+        list.set(i, doubled > 9 ? doubled - 9 : doubled);
+    }
+
+    // Return the sum % 10
+    return list.stream().reduce(0, Integer::sum) % 10 == 0;
+}
+
+void main() {
+    String test = "4012001037141112";
+    System.out.println(luhn(test));
 }
